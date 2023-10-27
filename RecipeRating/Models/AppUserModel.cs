@@ -1,11 +1,9 @@
-﻿
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeRating.Models
 {
-    public class AppUserModel : IdentityUser
+    public class AppUserModel : IdentityUser<int>
     {
         [StringLength(50)]
         public string? FirstName { get; set; }
