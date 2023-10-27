@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RecipeRating.Models
 {
-    public class AppUserModel : IdentityUser<int>
+    public class AppUserModel : IdentityUser
     {
         [StringLength(50)]
         public string? FirstName { get; set; }
@@ -17,7 +17,8 @@ namespace RecipeRating.Models
         [StringLength(255)]
         public string? SecretAnswer { get; set; }
 
-        public ICollection<RatingModel> Ratings { get; set; }
+        public ICollection<RatingModel> Ratings { get; set; } = new List<RatingModel>();
+
 
 
 

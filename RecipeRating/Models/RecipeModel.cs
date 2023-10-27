@@ -20,7 +20,7 @@ namespace RecipeRating.Models
         public string Method { get; set; }
 
         [ForeignKey("User")]
-        public int UserID { get; set; } // Foreign Key
+        public string UserID { get; set; } // Foreign Key
 
         // Navigation properties
         public virtual AppUserModel User { get; set; }

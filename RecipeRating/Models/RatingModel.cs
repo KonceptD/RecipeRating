@@ -15,7 +15,7 @@ namespace RecipeRating.Models
         public int RecipeID { get; set; } // Foreign ID
 
         [Required]
-        public int UserID { get; set; } // Foreign ID
+        public string UserID { get; set; } // Foreign ID
 
         // Navigation Properties
         public virtual AppUserModel User { get; set; }
