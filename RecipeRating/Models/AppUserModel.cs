@@ -17,6 +17,9 @@ namespace RecipeRating.Models
         [StringLength(255)]
         public string? SecretAnswer { get; set; }
 
+        public ICollection<RatingModel> Ratings { get; set; }
+
+
 
         /* public int UserID { get; set; } -- Not needed as IdentityUser already has an ID prop 
 
