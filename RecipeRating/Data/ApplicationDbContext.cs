@@ -22,16 +22,17 @@ namespace RecipeRating.Data
 
             // ... Your custom model configurations ...
             modelBuilder.Entity<RatingModel>()
-            .HasOne(r => r.User)
-            .WithMany(u => u.Ratings)
-            .HasForeignKey(r => r.UserID)
-            .OnDelete(DeleteBehavior.Cascade);  // Keep this cascade
+                .HasOne(r => r.User)
+                .WithMany(u => u.Ratings)
+                .HasForeignKey(r => r.UserID)
+                .OnDelete(DeleteBehavior.NoAction);  // No cascade delete
 
             modelBuilder.Entity<RatingModel>()
                 .HasOne(r => r.Recipe)
-                .WithMany(rcp => rcp.Ratings)
+                .WithMany(rc => rc.Ratings)
                 .HasForeignKey(r => r.RecipeID)
-                .OnDelete(DeleteBehavior.Restrict);  // Change this to restrict
+                .OnDelete(DeleteBehavior.NoAction);  // No cascade delete
+
         }
     }
 }
