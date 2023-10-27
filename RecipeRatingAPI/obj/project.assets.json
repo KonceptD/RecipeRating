@@ -26,6 +26,12 @@
           }
         }
       },
+      "PolySharp/1.13.2": {
+        "type": "package",
+        "build": {
+          "buildTransitive/PolySharp.targets": {}
+        }
+      },
       "Swashbuckle.AspNetCore/6.5.0": {
         "type": "package",
         "dependencies": {
@@ -340,6 +346,22 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "PolySharp/1.13.2": {
+      "sha512": "XwNhfkr7IeUiH8AE4pzob8YioxfL6nxgAx+fHEeWCObY/NZuBMfWLh39FznXbneKvagiqeeI7quIvZ6P1eVaEA==",
+      "type": "package",
+      "path": "polysharp/1.13.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "analyzers/dotnet/cs/PolySharp.SourceGenerators.dll",
+        "build/PolySharp.targets",
+        "buildTransitive/PolySharp.targets",
+        "icon.png",
+        "polysharp.1.13.2.nupkg.sha512",
+        "polysharp.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.5.0": {
       "sha512": "FK05XokgjgwlCI6wCT+D4/abtQkL1X1/B9Oas6uIwHFmYrIO9WUD5aLC9IzMs9GnHfUXOtXZ2S43gN1mhs5+aA==",
       "type": "package",
@@ -433,6 +455,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "PolySharp >= 1.13.2",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -480,6 +503,12 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "PolySharp": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.13.2, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.5.0, )"
