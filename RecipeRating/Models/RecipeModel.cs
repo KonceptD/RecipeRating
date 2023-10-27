@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipeRating.Models
 {
@@ -7,16 +9,22 @@ namespace RecipeRating.Models
         [Key]
         public int RecipeID { get; set; }
 
-        public int UserID { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string RecipeName { get; set; }
 
         [Required]
-        public required string RecipeName { get; set; }
+        public string Ingredients { get; set; }
 
         [Required]
-        public required string Ingredients { get; set; }
+        public string Method { get; set; }
 
-        [Required]
-        public required string Method { get; set; }
+        [ForeignKey("User")]
+        public int UserID { get; set; } // Foreign Key
+
+        // Navigation properties
+        public virtual AppUserModel User { get; set; }
+        public virtual List<RatingModel> Ratings { get; set; }
 
         /* 
          -- Create the Recipes table

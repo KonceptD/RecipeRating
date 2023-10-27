@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "TqnXrnfemFp5U8gfDUEn/m8qw0fTyKSg0VlDrz7hc+d4DEYU0+sVGRVCE49rl42fDO7su53URNKElNR0V3CBxQ==",
+  "dgSpecHash": "GmnEnBAlAjjHF+o26t9g2e/skux7ubiFVDK+5AYL16gjcPniJ33q+sVXY6VIB+QiILPG5IOnUlD7kUHQq7Zn/A==",
   "success": true,
   "projectFilePath": "C:\\Users\\kiran\\source\\repos\\RecipeRating\\RecipeRating\\RecipeRating.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kiran\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\fluentassertions\\6.12.0\\fluentassertions.6.12.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.23\\microsoft.aspnetcore.cryptography.internal.6.0.23.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.23\\microsoft.aspnetcore.cryptography.keyderivation.6.0.23.nupkg.sha512",

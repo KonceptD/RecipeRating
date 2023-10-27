@@ -1,28 +1,12 @@
 ﻿
 
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeRating.Models
 {
-    public class AppUserModel
+    public class AppUserModel : IdentityUser
     {
-        public int UserID { get; set; }
-
-        [Key]
-        [Required]
-        [StringLength(255)]
-        [EmailAddress]
-        public required string Email { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        [DataType(DataType.Password)]
-        public required string Password { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public required string Username { get; set; }
-
         [StringLength(50)]
         public string? FirstName { get; set; }
 
@@ -34,6 +18,27 @@ namespace RecipeRating.Models
 
         [StringLength(255)]
         public string? SecretAnswer { get; set; }
+
+
+        /* public int UserID { get; set; } -- Not needed as IdentityUser already has an ID prop 
+
+        [Key]
+        [Required]
+        [StringLength(255)]
+        [EmailAddress]
+        public required string Email { get; set; } -- Not needed as IdentityUser already has an Email prop
+
+        [Required]
+        [StringLength(255)]
+        [DataType(DataType.Password)]
+        public required string Password { get; set; } -- Not needed as IdentityUser already has an Password prop
+
+        [Required]
+        [StringLength(255)]
+        public required string Username { get; set; } -- Not needed as IdentityUser already has an Username prop
+        */
+
+
 
         /*
          -- Create the Users table
