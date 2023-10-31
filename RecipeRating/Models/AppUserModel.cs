@@ -6,6 +6,9 @@ namespace RecipeRating.Models
     public class AppUserModel : IdentityUser
     {
         [StringLength(50)]
+        public string UserDisplayName { get; set; }
+
+        [StringLength(50)]
         public string? FirstName { get; set; }
 
         [StringLength(50)]
