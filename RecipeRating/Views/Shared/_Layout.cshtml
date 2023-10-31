@@ -25,6 +25,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <form asp-action="Logout" asp-controller="Account" method="post">
+                                    <button type="submit" class="btn btn-link navbar-btn">Logout</button>
+                                </form>
+                            </li>
+                            <li>
+                                <span>Welcome, @User.Identity.Name!</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a asp-action="Login" asp-controller="Account">Login</a></li>
+                            <li><a asp-action="Register" asp-controller="Account">Register</a></li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

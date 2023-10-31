@@ -1,0 +1,22 @@
+﻿@model RecipeRating.Models.ViewModels.LoginViewModel
+@{
+}
+
+
+<h2>Login</h2>
+
+<form method="post" asp-action="Login">
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input type="email" asp-for="Email" required class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input type="password" asp-for="Password" required class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="checkbox" asp-for="RememberMe" />
+        <label asp-for="RememberMe">Remember Me</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
