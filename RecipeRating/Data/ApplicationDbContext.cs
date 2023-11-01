@@ -5,14 +5,15 @@ using RecipeRating.Models;
 
 namespace RecipeRating.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<AppUserModel>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
         {
         }
 
-        public DbSet<AppUserModel> AppUsers { get; set; }
+        // No need for this DbSet since AppUserModel is already included by the IdentityDbContext
+        // public DbSet<AppUserModel> AppUsers { get; set; }
         public DbSet<RecipeModel> Recipes { get; set; }
         public DbSet<RatingModel> Ratings { get; set; }
 
