@@ -24,6 +24,7 @@ namespace RecipeRating.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -32,7 +33,7 @@ namespace RecipeRating.Controllers
                 {
                     UserName = model.Email,  // Using Email for both UserName and Email
                     Email = model.Email,
-                    UserDisplayName = model.Username, // This is a new property you'd add to AppUserModel
+                    UserDisplayName = model.Username,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     SecretQuestion = model.SecretQuestion,
@@ -41,8 +42,9 @@ namespace RecipeRating.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    // Remove the line that signs the user in
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Login", "Account"); // Redirect to login after registration
                 }
                 foreach (var error in result.Errors)
                 {
@@ -51,6 +53,7 @@ namespace RecipeRating.Controllers
             }
             return View(model);
         }
+
 
         // GET: Login
         public IActionResult Login()
@@ -66,12 +69,13 @@ namespace RecipeRating.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Dashboard", "Account"); // Redirect to Dashboard after successful login
                 }
                 ModelState.AddModelError("", "Invalid login attempt");
             }
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()
