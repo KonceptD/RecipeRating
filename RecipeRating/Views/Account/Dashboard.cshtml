@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "User Dashboard";
+}
+
+<h2>@ViewBag.Username's Dashboard</h2>
+
+<ul>
+    <li><a asp-controller="Recipes" asp-action="Index">View All Recipes</a></li>
+    <li><a asp-controller="Recipes" asp-action="Create">Submit a New Recipe</a></li>
+    <li><a asp-controller="Recipes" asp-action="UserRecipes">My Recipes</a></li>
+</ul>

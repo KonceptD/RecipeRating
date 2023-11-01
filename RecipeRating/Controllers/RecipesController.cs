@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeRating.Data;
@@ -57,6 +58,15 @@ namespace RecipeRating.Controllers
             }
             return View(recipe);
         }
+
+        [Authorize] // view the recipes of the currently logged-in user
+        public async Task<IActionResult> UserRecipes()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var recipes = await _context.Recipes.Where(r => r.UserID == user.Id).ToListAsync();
+            return View(recipes);
+        }
+
 
 
     }

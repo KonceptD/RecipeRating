@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "UserRecipes";
+}
+
+@model IEnumerable<RecipeRating.Models.RecipeModel>
+
+<h2>My Recipes</h2>
+
+<ul>
+    @foreach (var recipe in Model)
+    {
+        <li><a asp-action="Details" asp-route-id="@recipe.RecipeID">@recipe.RecipeName</a></li>
+    }
+</ul>

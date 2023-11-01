@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRating.Models;
@@ -78,6 +79,16 @@ namespace RecipeRating.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        // For the User's Dashboard
+        [Authorize]  // This attribute ensures that only authenticated users can access the dashboard
+        public async Task<IActionResult> Dashboard()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ViewBag.Username = user.UserName; // Passing the username to the view for display
+            return View();
+        }
+
 
 
     }
