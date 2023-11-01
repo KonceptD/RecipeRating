@@ -64,7 +64,7 @@ namespace RecipeRating.Controllers
                 recipe.UserID = user.Id;
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Dashboard", "Account");  // Redirect to Dashboard after successfully adding a recipe
             }
             return View(recipe);
         }
