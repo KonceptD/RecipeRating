@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeRating.Data;
 using RecipeRating.Models;
+using System.Security.Claims;
 
 namespace RecipeRating.Controllers
 {
@@ -35,6 +36,15 @@ namespace RecipeRating.Controllers
             {
                 return NotFound();
             }
+
+            // Calculate the average rating
+            var avgRating = _context.Ratings
+                .Where(r => r.RecipeID == id)
+                .DefaultIfEmpty()  // This ensures that if there are no ratings, we won't get an exception
+                .Average(r => r.Rating);
+
+            // Add the average rating to the ViewData or ViewModel
+            ViewData["AverageRating"] = avgRating;
 
             return View(recipe);
         }
@@ -68,6 +78,33 @@ namespace RecipeRating.Controllers
         }
 
 
+        [HttpPost]
+        [Authorize] // Ensures only logged in users can rate the recipes
+        public async Task<IActionResult> RateRecipe(int ratingValue, int recipeId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user's ID
+
+            var existingRating = _context.Ratings
+                .FirstOrDefault(r => r.RecipeID == recipeId && r.UserID == userId);
+
+            if (existingRating != null)
+            {
+                existingRating.Rating = ratingValue;
+            }
+            else
+            {
+                var rating = new RatingModel
+                {
+                    Rating = ratingValue,
+                    RecipeID = recipeId,
+                    UserID = userId
+                };
+                _context.Ratings.Add(rating);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = recipeId });
+        }
 
     }
 }

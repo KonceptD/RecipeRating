@@ -1,11 +1,31 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Details";
 }
 
 @model RecipeRating.Models.RecipeModel
 
-<h2>@Model.RecipeName</h2>
-
-<p><strong>Ingredients:</strong> @Model.Ingredients</p>
-<p><strong>Method:</strong> @Model.Method</p>
+<div class="card">
+    <div class="card-header">
+        <h2>@Model.RecipeName</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>Ingredients:</strong> @Model.Ingredients</p>
+        <p><strong>Method:</strong> @Model.Method</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <h3>Rate this recipe</h3>
+            <form asp-action="RateRecipe" asp-controller="Recipes" class="mb-3">
+                <select name="ratingValue" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="hidden" name="recipeId" value="@Model.RecipeID" />
+                <button type="submit" class="btn btn-primary">Rate</button>
+            </form>
+        }
+        <h3>Average Rating: @ViewData["AverageRating"]</h3>
+    </div>
+</div>
