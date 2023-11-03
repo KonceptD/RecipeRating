@@ -28,6 +28,13 @@ namespace RecipeRating.Data
                 .HasForeignKey(r => r.UserID)
                 .OnDelete(DeleteBehavior.NoAction);  // No cascade delete
 
+            modelBuilder.Entity<RecipeModel>()
+           .HasOne(r => r.User) // One user
+           .WithMany() // to many recipes
+           .HasForeignKey(r => r.UserID)
+           .IsRequired(false) // This indicates that the User is not required
+           .OnDelete(DeleteBehavior.SetNull); // If the user is deleted, set the UserID to null
+
             modelBuilder.Entity<RatingModel>()
                 .HasOne(r => r.Recipe)
                 .WithMany(rc => rc.Ratings)
