@@ -38,17 +38,21 @@ namespace RecipeRating.Controllers
                 return NotFound();
             }
 
-            // Calculate the average rating
-            var avgRating = _context.Ratings
-                .Where(r => r.RecipeID == id)
-                .DefaultIfEmpty()  // This ensures that if there are no ratings, we won't get an exception
-                .Average(r => r.Rating);
+            // Check if there are any ratings before calculating the average
+            var ratings = _context.Ratings.Where(r => r.RecipeID == id);
+            double avgRating = 0; // Default value if there are no ratings
+
+            if (ratings.Any()) // Check if there are any ratings
+            {
+                avgRating = await ratings.AverageAsync(r => r.Rating); // Calculate the average rating
+            }
 
             // Add the average rating to the ViewData or ViewModel
             ViewData["AverageRating"] = avgRating;
 
             return View(recipe);
         }
+
 
         public IActionResult Create()
         {
