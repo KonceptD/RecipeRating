@@ -128,5 +128,89 @@ namespace RecipeRating.Controllers
             return RedirectToAction("Details", new { id = recipeId });
         }
 
+        // GET: Recipes/Edit/5
+        [Authorize] // Ensure only authenticated users can access this
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var recipe = await _context.Recipes.FindAsync(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user is the owner of the recipe
+            if (recipe.UserID != _userManager.GetUserId(User))
+            {
+                return Forbid(); // or return View("Error") with a custom error message
+            }
+
+            return View(recipe);
+        }
+
+        // POST: Recipes/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize] // Ensure only authenticated users can post this
+        public async Task<IActionResult> Edit(int id, [Bind("RecipeID,RecipeName,Ingredients,Method")] RecipeModel recipeModel)
+        {
+            if (id != recipeModel.RecipeID)
+            {
+                return NotFound();
+            }
+
+            // Remove the ModelState entries for the fields not present in the Edit form
+            ModelState.Remove("UserID");
+            ModelState.Remove("User");
+            ModelState.Remove("Ratings");
+
+            // The UserID should be set to the ID of the user who created the recipe.
+            // Since UserID is not part of the form, fetch the current value and set it.
+            var existingRecipe = await _context.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.RecipeID == id);
+            if (existingRecipe == null)
+            {
+                return NotFound();
+            }
+
+            recipeModel.UserID = existingRecipe.UserID; // Preserve the UserID from the existing recipe
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(recipeModel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { id = recipeModel.RecipeID });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RecipeModelExists(recipeModel.RecipeID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            // If we get to this point, something went wrong, so we re-display the form
+            return View(recipeModel);
+        }
+
+
+
+
+
+        private bool RecipeModelExists(int id)
+        {
+            return _context.Recipes.Any(e => e.RecipeID == id);
+        }
+
+
     }
 }

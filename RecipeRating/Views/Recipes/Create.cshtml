@@ -2,17 +2,6 @@
 @{
     ViewData["Title"] = "Create";
 }
-@section Scripts {
-    <!-- Reference to CKEditor's CDN -->
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-
-    <!-- Script to initialize CKEditor for textareas -->
-    <script>
-        CKEDITOR.replace('Ingredients');
-        CKEDITOR.replace('Method');
-    </script>
-}
-
 
 
 <form asp-action="Create">
@@ -42,3 +31,14 @@
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>
 </form>
+
+@section Scripts {
+    <!-- Reference to CKEditor's CDN -->
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
+    <!-- Script to initialize CKEditor for textareas -->
+    <script>
+        CKEDITOR.replace('Ingredients');
+        CKEDITOR.replace('Method');
+    </script>
+}

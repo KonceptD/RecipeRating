@@ -11,16 +11,20 @@
         CKEDITOR.replace('Method');
     </script>
 }
+@model RecipeModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUserModel> UserManager
 
-@model RecipeRating.Models.RecipeModel
+
+
 
 <div class="card">
     <div class="card-header">
         <h2>@Model.RecipeName</h2>
     </div>
     <div class="card-body">
-        <p><strong>Ingredients:</strong> @Model.Ingredients</p>
-        <p><strong>Method:</strong> @Model.Method</p>
+        <p><strong>Ingredients:</strong> @Html.Raw(Model.Ingredients)</p>
+        <p><strong>Method:</strong> @Html.Raw(Model.Method)</p>
         @if (User.Identity.IsAuthenticated)
         {
             <h3>Rate this recipe</h3>
@@ -39,3 +43,18 @@
         <h3>Average Rating: @ViewData["AverageRating"]</h3>
     </div>
 </div>
+
+@{
+    // Check if the user is authenticated
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    // Get the current user ID
+    var currentUserId = UserManager.GetUserId(User);
+    // Determine if the current user is the owner of the recipe
+    var isOwner = isAuthenticated && Model.UserID == currentUserId;
+}
+
+<!-- Your existing details markup here -->
+@if (isOwner)
+{
+    <a asp-action="Edit" asp-route-id="@Model.RecipeID" class="btn btn-primary">Edit Recipe</a>
+}
