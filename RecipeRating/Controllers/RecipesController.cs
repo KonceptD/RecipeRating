@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeRating.Data;
 using RecipeRating.Models;
+using RecipeRating.Models.ViewModels;
 using System.Security.Claims;
 
 namespace RecipeRating.Controllers
@@ -51,23 +52,40 @@ namespace RecipeRating.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(new CreateRecipeViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RecipeModel recipe)
+        public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                recipe.UserID = user.Id;
-                _context.Add(recipe);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Dashboard", "Account");  // Redirect to Dashboard after successfully adding a recipe
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    // Map the ViewModel to your RecipeModel
+                    var recipe = new RecipeModel
+                    {
+                        UserID = user.Id, // This will be set from the logged-in user
+                        RecipeName = model.RecipeName,
+                        Ingredients = model.Ingredients,
+                        Method = model.Method
+                        // Map other fields if necessary
+                    };
+
+                    _context.Add(recipe);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Dashboard", "Account");
+                }
+                else
+                {
+                    // Handle the case where the user is not found (e.g., return an error message)
+                }
             }
-            return View(recipe);
+            return View(model); // If ModelState is invalid, pass the model back to the view
         }
+
 
         [Authorize] // view the recipes of the currently logged-in user
         public async Task<IActionResult> UserRecipes()

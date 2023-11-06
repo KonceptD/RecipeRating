@@ -22,18 +22,27 @@ namespace RecipeRating.Data
             base.OnModelCreating(modelBuilder);
 
             // ... Your custom model configurations ...
-            modelBuilder.Entity<RatingModel>()
-                .HasOne(r => r.User)
-                .WithMany(u => u.Ratings)
-                .HasForeignKey(r => r.UserID)
-                .OnDelete(DeleteBehavior.NoAction);  // No cascade delete
 
             modelBuilder.Entity<RecipeModel>()
-           .HasOne(r => r.User) // One user
-           .WithMany() // to many recipes
-           .HasForeignKey(r => r.UserID)
-           .IsRequired(false) // This indicates that the User is not required
-           .OnDelete(DeleteBehavior.SetNull); // If the user is deleted, set the UserID to null
+                .HasOne(r => r.User) // One user
+                .WithMany(u => u.Recipes) // to many recipes
+                .HasForeignKey(r => r.UserID)
+                .IsRequired(false); // User is optional, UserID can be null
+
+            // Configure the one-to-many relationship between RecipeModel and RatingModel
+            modelBuilder.Entity<RecipeModel>()
+                .HasMany(r => r.Ratings) // One recipe
+                .WithOne(rt => rt.Recipe) // to many ratings
+                .HasForeignKey(rt => rt.RecipeID)
+                .IsRequired(false); // Ratings are optional
+        
+
+            modelBuilder.Entity<RatingModel>()
+                    .HasOne(r => r.User)
+                    .WithMany(u => u.Ratings)
+                    .HasForeignKey(r => r.UserID)
+                    .OnDelete(DeleteBehavior.NoAction);  // No cascade delete
+
 
             modelBuilder.Entity<RatingModel>()
                 .HasOne(r => r.Recipe)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeRating.Data;
 
@@ -11,9 +12,11 @@ using RecipeRating.Data;
 namespace RecipeRating.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231103160233_RecipeModelUpdateThree")]
+    partial class RecipeModelUpdateThree
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,7 +362,8 @@ namespace RecipeRating.Migrations
                     b.HasOne("RecipeRating.Models.RecipeModel", "Recipe")
                         .WithMany("Ratings")
                         .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("RecipeRating.Models.AppUserModel", "User")
                         .WithMany("Ratings")
@@ -375,8 +379,9 @@ namespace RecipeRating.Migrations
             modelBuilder.Entity("RecipeRating.Models.RecipeModel", b =>
                 {
                     b.HasOne("RecipeRating.Models.AppUserModel", "User")
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserID");
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
                 });
@@ -384,8 +389,6 @@ namespace RecipeRating.Migrations
             modelBuilder.Entity("RecipeRating.Models.AppUserModel", b =>
                 {
                     b.Navigation("Ratings");
-
-                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("RecipeRating.Models.RecipeModel", b =>

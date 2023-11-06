@@ -3,24 +3,34 @@
     ViewData["Title"] = "Create";
 }
 
-@model RecipeRating.Models.RecipeModel
+@model CreateRecipeViewModel
 
-<h2>Submit a Recipe</h2>
+<!-- ...other HTML... -->
 
 <form asp-action="Create">
-    <!-- Add form fields for RecipeName, Ingredients, Method, etc. here -->
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="form-group">
-        <label asp-for="RecipeName">Recipe Name:</label>
-        <input asp-for="RecipeName" type="text" required />
+        <label asp-for="RecipeName" class="control-label">Recipe Name:</label>
+        <input asp-for="RecipeName" class="form-control" />
+        <span asp-validation-for="RecipeName" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="Ingredients">Ingredients:</label>
-        <input asp-for="Ingredients" type="text" required />
+        <label asp-for="Ingredients" class="control-label">Ingredients:</label>
+        <input asp-for="Ingredients" class="form-control" />
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="Method">Method:</label>
-        <input asp-for="Method" type="text" required />
+        <label asp-for="Method" class="control-label">Method</label>
+        <input asp-for="Method" class="form-control" />
+        <span asp-validation-for="Method" class="text-danger"></span>
     </div>
-    <button type="submit">Submit</button>
-    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <!-- Add other fields as necessary -->
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
 </form>

@@ -22,6 +22,10 @@ namespace RecipeRating.Models
 
         public ICollection<RatingModel> Ratings { get; set; } = new List<RatingModel>();
 
+        // Navigation property for the recipes this user has created
+        public virtual ICollection<RecipeModel> Recipes { get; set; }
+
+
 
 
 
