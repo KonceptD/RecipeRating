@@ -12,8 +12,7 @@ namespace RecipeRating.Data
         {
         }
 
-        // No need for this DbSet since AppUserModel is already included by the IdentityDbContext
-        // public DbSet<AppUserModel> AppUsers { get; set; }
+        // public DbSet<AppUserModel> AppUsers { get; set; } // No need for this DbSet since AppUserModel is already included by the IdentityDbContext
         public DbSet<RecipeModel> Recipes { get; set; }
         public DbSet<RatingModel> Ratings { get; set; }
 
@@ -21,7 +20,8 @@ namespace RecipeRating.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // ... Your custom model configurations ...
+            // Custom model configurations as I was having validation errors with change of User Data and the 
+            // program was wanting Data that wasn't even relevant in certain areas like Recipe data asking for UserID/Email etc
 
             modelBuilder.Entity<RecipeModel>()
                 .HasOne(r => r.User) // One user
