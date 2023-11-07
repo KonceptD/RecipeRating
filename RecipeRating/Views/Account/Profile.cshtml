@@ -1,0 +1,29 @@
+﻿
+@{
+}
+@model RecipeRating.Models.ViewModels.UserProfileViewModel
+
+<h2>Profile</h2>
+
+<!-- Display User Information -->
+<p>Email: @Model.User.Email</p>
+<p>First Name: @Model.User.FirstName</p>
+<p>Last Name: @Model.User.LastName</p>
+<!-- Add other user details you want to display -->
+
+<h3>Recipes</h3>
+@foreach (var recipe in Model.Recipes)
+{
+    <p>@recipe.RecipeName</p>
+    <!-- Other recipe details -->
+}
+
+<h3>Ratings</h3>
+@foreach (var rating in Model.Ratings)
+{
+    <p>Recipe @rating.RecipeID: @rating.Rating</p>
+    <!-- Other rating details -->
+}
+
+<a asp-action="EditProfile">Edit Profile</a>
+<a asp-action="ChangePassword">Change Password</a>

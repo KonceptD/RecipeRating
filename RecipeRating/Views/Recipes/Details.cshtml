@@ -23,8 +23,8 @@
         <h2>@Model.RecipeName</h2>
     </div>
     <div class="card-body">
-        <p><strong>Ingredients:</strong> @Html.Raw(Model.Ingredients)</p>
-        <p><strong>Method:</strong> @Html.Raw(Model.Method)</p>
+        <p><strong>Ingredients:</strong> @Html.Raw(Model.Ingredients)</p> <!--Preventing html tags being rendered after Editing the recipe-->
+        <p><strong>Method:</strong> @Html.Raw(Model.Method)</p> <!--Preventing html tags being rendered after Editing the recipe-->
         @if (User.Identity.IsAuthenticated)
         {
             <h3>Rate this recipe</h3>
