@@ -6,54 +6,46 @@
 <h2>Register</h2>
 
 <!-- Registration Form Start -->
-<form asp-action="Register" asp-controller="Account" method="post" class="needs-validation" novalidate>
-    <!-- Email Input Field -->
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email:</label>
-        <input asp-for="Email" type="email" class="form-control" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<!--
+  The form posts the registration data to the Register action on the Account controller.
+  The 'asp-for' tag helper binds form elements to the corresponding model properties.
+-->
+<form asp-action="Register" asp-controller="Account" method="post">
+    @* Form fields for user registration. Each label-input pair is wrapped in a div. *@
+    <div>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" type="email" required />
     </div>
-
-    <!-- Username Input Field -->
     <div class="form-group">
-        <label asp-for="Username" class="control-label">Username:</label>
-        <input asp-for="Username" type="text" class="form-control" required />
-        <span asp-validation-for="Username" class="text-danger"></span>
+        <label asp-for="Username">Username:</label>
+        <input asp-for="Username" type="text" required />
     </div>
-
-    <!-- Password Input Field -->
-    <div class="form-group">
-        <label asp-for="Password" class="control-label">Password:</label>
-        <input asp-for="Password" type="password" class="form-control" required />
-        <span asp-validation-for="Password" class="text-danger"></span>
+    <div>
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" type="password" required />
     </div>
-
-    <!-- Confirm Password Input Field -->
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="control-label">Confirm Password:</label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    <div>
+        <label asp-for="ConfirmPassword">Confirm Password:</label>
+        <input asp-for="ConfirmPassword" type="password" required />
     </div>
-    <!-- First Name Input Field -->
     <div>
         <label asp-for="FirstName">First Name:</label>
-        <input asp-for="FirstName" type="text"  />
+        <input asp-for="FirstName" type="text" />
     </div>
-    <!-- Last Name Input Field -->
     <div>
         <label asp-for="LastName">Last Name:</label>
-        <input asp-for="LastName" type="text"  />
+        <input asp-for="LastName" type="text" />
     </div>
-    <!-- Secret Q Input Field -->
     <div>
         <label asp-for="SecretQuestion">Secret Question:</label>
         <input asp-for="SecretQuestion" type="text" />
     </div>
-    <!-- Secret A Input Field -->
     <div>
         <label asp-for="SecretAnswer">Secret Answer:</label>
         <input asp-for="SecretAnswer" type="text" />
     </div>
-    <button type="submit">Register</button>
+    <!-- Display validation summary -->
     <div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Submit button for the form -->
+    <button type="submit">Register</button>
 </form>
