@@ -8,23 +8,40 @@ using RecipeRating.Models.ViewModels;
 using System.Security.Claims;
 
 namespace RecipeRating.Controllers
+
+    /*The RecipesController provides functionality for:
+
+    Displaying all recipes and details of a single recipe
+    Creating new recipes
+    Editing existing recipes
+    Rating recipes
+    Viewing recipes created by the logged-in user
+
+    Each method is secured with appropriate authorization checks to ensure only authorized users can perform certain actions, such as editing or rating recipes. 
+    The controller interacts with the ApplicationDbContext to perform CRUD operations and uses the UserManager to access user information based on the logged-in user. 
+    The controller's methods also handle various states of a request, such as handling null IDs, not found entities, and verifying ownership of resources.
+     */
 {
+    // The RecipesController is responsible for handling actions related to recipe management.
     public class RecipesController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUserModel> _userManager;
 
+        // Constructor initializes the database context and user manager to interact with user and recipe data.
         public RecipesController(ApplicationDbContext context, UserManager<AppUserModel> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
+        // Asynchronously gets and displays a list of recipes from the database.
         public async Task<IActionResult> IndexAsync()
         {
             return View(await _context.Recipes.ToListAsync());
         }
 
+        // Asynchronously displays the details of a specific recipe by ID.
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,27 +55,28 @@ namespace RecipeRating.Controllers
                 return NotFound();
             }
 
-            // Check if there are any ratings before calculating the average
+            // If ratings exist for the recipe, calculate the average rating.
             var ratings = _context.Ratings.Where(r => r.RecipeID == id);
-            double avgRating = 0; // Default value if there are no ratings
+            double avgRating = 0;
 
-            if (ratings.Any()) // Check if there are any ratings
+            if (ratings.Any())
             {
-                avgRating = await ratings.AverageAsync(r => r.Rating); // Calculate the average rating
+                avgRating = await ratings.AverageAsync(r => r.Rating);
             }
 
-            // Add the average rating to the ViewData or ViewModel
+            // Pass the average rating to the view using ViewData.
             ViewData["AverageRating"] = avgRating;
 
             return View(recipe);
         }
 
-
+        // Returns a view for creating a new recipe.
         public IActionResult Create()
         {
             return View(new CreateRecipeViewModel());
         }
 
+        // Handles the post request for creating a new recipe.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
@@ -68,14 +86,13 @@ namespace RecipeRating.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
                 {
-                    // Map the ViewModel to your RecipeModel
+                    // Create a new RecipeModel instance from the view model.
                     var recipe = new RecipeModel
                     {
-                        UserID = user.Id, // This will be set from the logged-in user
+                        UserID = user.Id,
                         RecipeName = model.RecipeName,
                         Ingredients = model.Ingredients,
                         Method = model.Method
-                        // Map other fields if necessary
                     };
 
                     _context.Add(recipe);
@@ -84,14 +101,15 @@ namespace RecipeRating.Controllers
                 }
                 else
                 {
-                    // Handle the case where the user is not found (e.g., return an error message)
+                    // Handle the case where the user is not found.
                 }
             }
-            return View(model); // If ModelState is invalid, pass the model back to the view
+            // Return to the Create view with the model if ModelState is invalid.
+            return View(model);
         }
 
-
-        [Authorize] // view the recipes of the currently logged-in user
+        // Retrieves recipes created by the currently logged-in user.
+        [Authorize]
         public async Task<IActionResult> UserRecipes()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -99,15 +117,14 @@ namespace RecipeRating.Controllers
             return View(recipes);
         }
 
-
+        // Handles the post request to rate a recipe.
         [HttpPost]
-        [Authorize] // Ensures only logged in users can rate the recipes
+        [Authorize]
         public async Task<IActionResult> RateRecipe(int ratingValue, int recipeId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var existingRating = _context.Ratings
-                .FirstOrDefault(r => r.RecipeID == recipeId && r.UserID == userId);
+            var existingRating = _context.Ratings.FirstOrDefault(r => r.RecipeID == recipeId && r.UserID == userId);
 
             if (existingRating != null)
             {
@@ -128,8 +145,8 @@ namespace RecipeRating.Controllers
             return RedirectToAction("Details", new { id = recipeId });
         }
 
-        // GET: Recipes/Edit/5
-        [Authorize] // Ensure only authenticated users can access this
+        // Returns a view for editing an existing recipe.
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,19 +160,19 @@ namespace RecipeRating.Controllers
                 return NotFound();
             }
 
-            // Check if the current user is the owner of the recipe
+            // Verify that the current user is the owner of the recipe.
             if (recipe.UserID != _userManager.GetUserId(User))
             {
-                return Forbid(); // or return View("Error") with a custom error message
+                return Forbid();
             }
 
             return View(recipe);
         }
 
-        // POST: Recipes/Edit/5
+        // Handles the post request for editing an existing recipe.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize] // Ensure only authenticated users can post this
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("RecipeID,RecipeName,Ingredients,Method")] RecipeModel recipeModel)
         {
             if (id != recipeModel.RecipeID)
@@ -163,20 +180,18 @@ namespace RecipeRating.Controllers
                 return NotFound();
             }
 
-            // Remove the ModelState entries for the fields not present in the Edit form
+            // Remove ModelState entries for fields that aren't present in the form.
             ModelState.Remove("UserID");
             ModelState.Remove("User");
             ModelState.Remove("Ratings");
 
-            // The UserID should be set to the ID of the user who created the recipe.
-            // Since UserID is not part of the form, fetch the current value and set it.
             var existingRecipe = await _context.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.RecipeID == id);
             if (existingRecipe == null)
             {
                 return NotFound();
             }
 
-            recipeModel.UserID = existingRecipe.UserID; // Preserve the UserID from the existing recipe
+            recipeModel.UserID = existingRecipe.UserID; // Keep the original UserID.
 
             if (ModelState.IsValid)
             {
@@ -198,19 +213,14 @@ namespace RecipeRating.Controllers
                     }
                 }
             }
-            // If we get to this point, something went wrong, so we re-display the form
+            // Re-display the form if something went wrong.
             return View(recipeModel);
         }
 
-
-
-
-
+        // Checks if a recipe with a given ID exists.
         private bool RecipeModelExists(int id)
         {
             return _context.Recipes.Any(e => e.RecipeID == id);
         }
-
-
     }
 }
