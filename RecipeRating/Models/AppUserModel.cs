@@ -6,28 +6,28 @@ namespace RecipeRating.Models
     public class AppUserModel : IdentityUser
     {
         [StringLength(50)]
-        public string UserDisplayName { get; set; }
+        public string UserDisplayName { get; set; } // Display name for the user, separate from the username.
 
         [StringLength(50)]
-        public string? FirstName { get; set; }
+        public string? FirstName { get; set; } // Optional first name of the user.
 
         [StringLength(50)]
-        public string? LastName { get; set; }
+        public string? LastName { get; set; } // Optional last name of the user.
 
         [StringLength(255)]
-        public string? SecretQuestion { get; set; }
+        public string? SecretQuestion { get; set; } // Optional secret question for account recovery.
 
         [StringLength(255)]
-        public string? SecretAnswer { get; set; }
+        public string? SecretAnswer { get; set; } // Optional answer to the secret question.
 
-        public ICollection<RatingModel> Ratings { get; set; } = new List<RatingModel>();
-
-        // Navigation property for the recipes this user has created
-        public virtual ICollection<RecipeModel> Recipes { get; set; }
-
+        // Collections to establish one-to-many relationships with ratings and recipes
+        public ICollection<RatingModel> Ratings { get; set; } // Collection of ratings given by the user.
+        public virtual ICollection<RecipeModel> Recipes { get; set; } // Collection of recipes created by the user.
 
 
 
+        // The commented-out properties below are not necessary as they are already 
+        // included in the base IdentityUser class that AppUserModel is inheriting from.
 
         /* public int UserID { get; set; } -- Not needed as IdentityUser already has an ID prop 
 
@@ -49,7 +49,7 @@ namespace RecipeRating.Models
 
 
 
-        /*
+        /* This is the SQL script from my inital DB to help me remember  
          -- Create the Users table
             CREATE TABLE Users (
                 * UserID INT PRIMARY KEY IDENTITY(1,1),

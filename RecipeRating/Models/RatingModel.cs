@@ -6,22 +6,22 @@ namespace RecipeRating.Models
     public class RatingModel
     {
         [Key]
-        public int RatingID { get; set; }
+        public int RatingID { get; set; } // Primary key for the Ratings table.
 
         [Required]
-        public int Rating { get; set; }
+        public int Rating { get; set; } // The rating score given by a user to a recipe.
 
         [Required]
-        public int RecipeID { get; set; } // Foreign ID
+        public int RecipeID { get; set; } // Foreign key relating this rating to a specific recipe.
 
         [Required]
-        public string UserID { get; set; } // Foreign ID
+        public string UserID { get; set; } // Foreign key relating this rating to the user who made it.
 
-        // Navigation Properties
-        public virtual AppUserModel User { get; set; }
-        public virtual RecipeModel Recipe { get; set; }
+        // Navigation properties to establish relationships in the Entity Framework
+        public virtual AppUserModel User { get; set; } // Navigation property to the associated user.
+        public virtual RecipeModel Recipe { get; set; } // Navigation property to the associated recipe.
 
-        /* Database SQL definition, which you might use for manual creation */
+        /* This is the SQL script from my inital DB to help me remember  
         /* 
          -- Create the Ratings table
             CREATE TABLE Ratings (
