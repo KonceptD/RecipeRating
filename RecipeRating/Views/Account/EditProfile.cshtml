@@ -4,10 +4,9 @@
 @model RecipeRating.Models.ViewModels.EditProfileViewModel
 
 <h2>Edit Profile</h2>
-
+<!-- Edit form for existing users -->
 <form asp-action="EditProfile" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
         <input asp-for="Email" class="form-control" />
@@ -33,6 +32,6 @@
         <input asp-for="SecretAnswer" class="form-control" />
         <span asp-validation-for="SecretAnswer" class="text-danger"></span>
     </div>
-
+    <!-- Submit button for the form -->
     <button type="submit" class="btn btn-primary">Update</button>
 </form>

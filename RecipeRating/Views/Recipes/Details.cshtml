@@ -20,13 +20,14 @@
 
 <div class="card">
     <div class="card-header">
-        <h2>@Model.RecipeName</h2>
+        <h2>@Model.RecipeName</h2> <!-- Recipe Name-->
     </div>
     <div class="card-body">
         <p><strong>Ingredients:</strong> @Html.Raw(Model.Ingredients)</p> <!--Preventing html tags being rendered after Editing the recipe-->
         <p><strong>Method:</strong> @Html.Raw(Model.Method)</p> <!--Preventing html tags being rendered after Editing the recipe-->
         @if (User.Identity.IsAuthenticated)
         {
+            <!-- Rating Drop down box-->
             <h3>Rate this recipe</h3>
             <form asp-action="RateRecipe" asp-controller="Recipes" class="mb-3">
                 <select name="ratingValue" class="form-control" style="width: auto; display: inline-block;">
@@ -37,6 +38,7 @@
                     <option value="5">5</option>
                 </select>
                 <input type="hidden" name="recipeId" value="@Model.RecipeID" />
+                <!-- Submit Rating button-->
                 <button type="submit" class="btn btn-primary">Rate</button>
             </form>
         }

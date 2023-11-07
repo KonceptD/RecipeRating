@@ -3,7 +3,7 @@
     ViewData["Title"] = "Create";
 }
 
-
+<!-- Create Form Start -->
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -25,8 +25,7 @@
         <span asp-validation-for="Method" class="text-danger"></span>
     </div>
 
-    <!-- Add other fields as necessary -->
-
+    <!-- Submit button -->
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>

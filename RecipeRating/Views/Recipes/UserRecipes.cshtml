@@ -8,6 +8,7 @@
 <h2>My Recipes</h2>
 
 <ul>
+    <!-- Displays each User submitted recipe -->
     @foreach (var recipe in Model)
     {
         <li><a asp-action="Details" asp-route-id="@recipe.RecipeID">@recipe.RecipeName</a></li>

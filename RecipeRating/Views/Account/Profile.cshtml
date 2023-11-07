@@ -9,15 +9,17 @@
 <p>Email: @Model.User.Email</p>
 <p>First Name: @Model.User.FirstName</p>
 <p>Last Name: @Model.User.LastName</p>
-<!-- Add other user details you want to display -->
 
+<!-- Submitted Recipes & Ratings Section -->
 <h3>Submitted Recipes & Ratings</h3>
 @foreach (var recipe in Model.Recipes)
 {
     <p>
+        <!-- Link to recipe details page -->
         <a asp-action="Details" asp-controller="Recipes" asp-route-id="@recipe.RecipeID">@recipe.RecipeName</a>
         @if (Model.Ratings.Any(r => r.RecipeID == recipe.RecipeID))
         {
+            <!-- Display rating if available -->
             var rating = Model.Ratings.FirstOrDefault(r => r.RecipeID == recipe.RecipeID);
             <span>: Rating @rating.Rating</span>
         }
@@ -26,9 +28,9 @@
             <span>: No ratings yet</span>
         }
     </p>
-    <!-- Other recipe details -->
+    
 }
 
-
+<!-- Links for editing profile and changing password -->
 <a asp-action="EditProfile">Edit Profile</a>
 <a asp-action="ChangePassword">Change Password</a>
