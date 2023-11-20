@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecipeRating")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+85789d190a33889108b79ea9dd36c7eed9616ade")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecipeRating")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecipeRating")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

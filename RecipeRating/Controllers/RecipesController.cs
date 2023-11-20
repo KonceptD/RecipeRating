@@ -102,6 +102,8 @@ namespace RecipeRating.Controllers
                 else
                 {
                     // Handle the case where the user is not found.
+                    // Log or inspect ModelState errors
+                    var errors = ModelState.Values.SelectMany(v => v.Errors);
                 }
             }
             // Return to the Create view with the model if ModelState is invalid.

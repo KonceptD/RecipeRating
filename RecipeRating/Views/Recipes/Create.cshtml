@@ -15,13 +15,13 @@
 
     <div class="form-group">
         <label asp-for="Ingredients" class="control-label">Ingredients:</label>
-        <input asp-for="Ingredients" class="form-control" />
+        <textarea asp-for="Ingredients" class="form-control"></textarea>
         <span asp-validation-for="Ingredients" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Method" class="control-label">Method</label>
-        <input asp-for="Method" class="form-control" />
+        <textarea asp-for="Method" class="form-control"></textarea>
         <span asp-validation-for="Method" class="text-danger"></span>
     </div>
 
@@ -39,5 +39,10 @@
     <script>
         CKEDITOR.replace('Ingredients');
         CKEDITOR.replace('Method');
+        // Update hidden fields before form submission
+        document.querySelector('form').addEventListener('submit', function () {
+            document.getElementById('Ingredients').value = CKEDITOR.instances.Ingredients.getData();
+            document.getElementById('Method').value = CKEDITOR.instances.Method.getData();
+        });
     </script>
 }
